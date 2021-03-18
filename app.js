@@ -1,64 +1,29 @@
-const http = require('http');
-const fs = require('fs');
-const _ = require('lodash');
+const express = require ('express')
+const morgan = require('morgan');
 
-//test 1
-/*const server = http.createServer((req, res) => {
-  console.log(req.url , req.method);
-  res.setHeader('Content-Type','text/html');
-  res.write('<h1> Ahmed ihsan </h1>');
-  res.write('<p> Ahmed ihsan </p>');
-  res.write('<h2> Ahmed ihsan </h2>');
-  res.end();
-});*/
+const app = express();
 
-//test2
+app.set('view engine' , 'ejs');
+app.use(express.static('public'));
+app .listen(5000);
+app.use(morgan('dev'))
 
- // lodash
- const num = _.random(0, 20);
- console.log(num);
+app.get('/',(req,res)=>{
+  res.render('home' , {title1:'this title from node js',title:'Home'});
+})
 
- const greet = _.once(() => {
-   console.log('hello');
- });
- 
- greet();
- greet();
 
-const server = http.createServer((req, res) => {
-  console.log(req.url , req.method);
-  let path = './view/';
-  switch(req.url){
-    case '/':
-      path += 'home.html';
-      res.statusCode = 200;
-      break;
-    case'/about':
-      path += 'about.html';
-      res.statusCode = 200;
-      break;
-    case'/about2':
-      res.statusCode = 301;
-      res.setHeader('Location','/about');
-      res.end();
-      break;
-    default:
-      path += '404.html';
-      res.statusCode = 404;
-      break;
-  }
-  res.setHeader('Content-Type','text/html');
-  fs.readFile( path , (err ,data) => {
-   if (err){
-     console.log(err);
-     res.end();
-   }
-   res.end(data);
- });
-});
+app.get('/about',(req,res)=>{
+  //res.send('<h1>Ahmed ihsan 1 </h1>');
+  res.render('about',{title:'About'});
+})
 
-// localhost is the default value for 2nd argument
-var port=5000;
-server.listen(port, 'localhost', () => {
-  console.log('listening for requests on port 3000');
-});
+app.get('/about12',(req,res)=>{
+  //res.send('<h1>Ahmed ihsan 1 </h1>');
+  res.redirect('/about');
+})
+
+app.use((req,res)=>{
+  //res.send('<h1>Ahmed ihsan 2 </h1>');
+  res.render('404',{title:'404'});
+})
