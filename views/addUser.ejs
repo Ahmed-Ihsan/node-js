@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <%- include ('./partials/head.ejs') %>
+    <body>
+        <%- include ('./partials/nav.ejs') %>
+
+            <h1>node js with html</h1>
+            <h2>Ahmed Ihsan</h2>
+            <form action="/users" method="POST">
+                <label for="firstnaem">first name:</label>
+                <input type="text" id="firstnaem" name="firstName" required>
+                <label for="lestname">lest name:</label>
+                <input type="text" id="lestname" name="lestName" required>
+                <label for="age">age:</label>
+                <input id="age" name="age" required></input>
+                <button>Submit</button>
+              </form>
+            <%- include ('./partials/footer.ejs') %>
+    </body>
+</html>
