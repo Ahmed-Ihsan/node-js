@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <%- include ('../partials/head.ejs') %>
+    <body>
+        <%- include ('../partials/nav.ejs') %>
+
+            <h1>node js with html</h1>
+            <h2>Ahmed Ihsan</h2>
+            <% if (users.length > 0) { %>
+            <% users.forEach(user => { %>
+                <h3><%= user.firstName %></h3>
+                <h3><%= user.lestName %></h3>
+                <h3><%= user.age %></h3>
+                <h3><a href="/users/<%= user.id %>">next</a></h3>
+                <h3><BUtton><a class="delete" data-doc="<%= user._id %>">delete</a></BUtton></h3>
+            <% }) %>
+            <% } else { %>
+                <p>There are no users to display...</p>
+            <% } %>
+
+            <%- include ('../partials/footer.ejs') %>
+
+            <script>
+                const trashcan = document.querySelector('a.delete');
+                trashcan.addEventListener('click', (e) => {
+                  const endpoint = `/users/del/${trashcan.dataset.doc}`;
+                  fetch(endpoint, {
+                    method: 'DELETE',
+                  })
+                  .then(response => response.json())
+                  .then(data => window.location.href = data.redirect)
+                  .catch(err => console.log(err));
+                });
+                
+              </script>
+    </body>
+</html>
